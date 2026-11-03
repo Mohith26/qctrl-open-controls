@@ -238,6 +238,24 @@ def test_control_export():
     _remove_file("driven_control_qctrl_cartesian.json")
 
 
+def test_control_export_csv_without_name(tmp_path):
+    """
+    Tests exporting a control without a name to a CSV file.
+    """
+    driven_control = DrivenControl(
+        rabi_rates=np.array([np.pi, 2 * np.pi]),
+        azimuthal_angles=np.array([0, np.pi / 2]),
+        durations=np.array([1, 0.5]),
+    )
+
+    filename = tmp_path / "driven_control.csv"
+    driven_control.export_to_file(filename=str(filename), file_type="CSV")
+
+    lines = filename.read_text(encoding="utf-8").splitlines()
+    assert lines[0] == "azimuthal_angles,detuning,duration,maximum_rabi_rate,rabi_rates"
+    assert len(lines) == 3
+
+
 def test_plot_data():
     """
     Test the plot data produced for a driven control.

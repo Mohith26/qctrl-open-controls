@@ -423,7 +423,7 @@ class DrivenControl:
         """
         control_info = self._qctrl_expanded_export_content(coordinates=coordinates)
         if file_type == FileType.CSV.value:
-            _ = control_info.pop("name")
+            control_info.pop("name", None)
             control_info["maximum_rabi_rate"] = [
                 self.maximum_rabi_rate
             ] * self.number_of_segments
